@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
+import './paper.min.css';
 import App from './App';
 import Dashboard from './Dashboard';
 import * as serviceWorker from './serviceWorker';

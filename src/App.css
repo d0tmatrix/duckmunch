@@ -24,10 +24,15 @@ div.card .card-header {
 }
 
 div.card.inputFeedCard {
+  margin: auto;
   background-color: whitesmoke;
   color: black;
-  width: 98vw;
+  width: 95vw;
   max-width: 960px;
+}
+
+.form-group p:first-of-type {
+  padding-top: 1em;
 }
 
 input.landingInput[type='number'] {
@@ -36,24 +41,29 @@ input.landingInput[type='number'] {
 
 input.landingInput, select.landingInput {
   display: inline-block;
-  margin: 0 10px;
+  margin: 2px 10px;
 }
 
 div.autocompleteParent {
   width: 100%;
   display: inline-block;
   margin-bottom: 10px;
+  position: relative;
+}
+
+div.autocompleteDropdownContainer {
+  position: absolute;
+  width: 60%;
+  right: 14.5%;
+  z-index: 20;
 }
 
 input.autocompleteInput {
   width: 60%
 }
 
-input.multiDateInput {
-  max-width: 100%;
-}
-
-span.clearDates:hover {
-  cursor: pointer;
-  margin-left: 8px;
+.checkboxGroup.form-group {
+  border: none;
+  margin-top: 0.75rem;
+  margin-bottom: 0;
 }

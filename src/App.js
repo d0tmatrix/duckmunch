@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AutoComplete from './components/AutoComplete';
 import duck from './img/duckOnBlue.png';
+import dayjs from 'dayjs'
 
 export default class App extends Component {
   constructor(props) {
@@ -13,37 +14,46 @@ export default class App extends Component {
       message: '',
       numDucks: 1,
       quantity: 1,
-      measure: '',
-      type: '',
+      measure: 'Teaspoons',
+      type: 'Grain',
       kind: '',
       location: {
         lat: 0,
         lng: 0,
         address: ''
       },
-      date: new Date().toISOString().slice(0, -8),
+      date: dayjs().format(),
+      displayDate: dayjs().format('YYYY-MM-DDTHH:mm'),
       repeat: false,
       repeatDays: 0
     }
   }
   saveFeed = async (e) => {
-    e.preventDefault()
-    this.setState({loading: true})
-    this.incrementLoader()
-    let { numDucks, type, kind, quantity, location, date, repeatDays } = this.state
-    let serverResponse = await fetch('/api/addFeed', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({ numDucks, type, kind, quantity, location, date, repeatDays })
-    })
-    let stateUpdate = serverResponse.ok ? { success: true } : {
-      error: true,
-      message: serverResponse.message || 'Failed to save this feeding, check your self.'
+    try {
+      e.preventDefault()
+      this.setState({loading: true})
+      this.incrementLoader()
+      let { numDucks, type, kind, quantity, location, date } = this.state
+      let repeatDays = this.state.repeat ? this.state.repeatDays : 0
+      let serverResponse = await fetch('/api/addFeed', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({ numDucks, type, kind, quantity, location, date, repeatDays  })
+      })
+      let stateUpdate = serverResponse.ok && !serverResponse.error ? { success: true } : {
+        error: true,
+        message: serverResponse.message || 'Failed to save this feeding, check your self.'
+      }
+      this.setState(Object.assign({}, stateUpdate, { loading: false }))
+    } catch (error) {
+      console.error(error)
+
+    } finally {
+
     }
-    this.setState(Object.assign(stateUpdate, { loading: false }))
   }
   incrementLoader = async () => {
     setTimeout(() => { this.setState({ loadingPercent: 50 }) }, 1000)
@@ -53,10 +63,14 @@ export default class App extends Component {
   handleChange = ({ target }) => this.setState({ [target.name]: target.type === 'number' ? Number(target.value) : target.value })
   toggleRepeat = () => this.setState({repeat: !this.state.repeat})
   setLocation = ({ lat, lng, address }) => this.setState({location: { lat, lng, address }})
+  handleDateChange = ({ target }) => this.setState({
+    displayDate: dayjs(target.value).format('YYYY-MM-DDTHH:mm'),
+    date: dayjs(target.value).format()
+  })
   render() {
-    let { loading, loadingPercent, numDucks, quantity, measure, type, kind, date, repeat, repeatDays } = this.state
+    let { loading, loadingPercent, numDucks, quantity, measure, type, kind, displayDate, repeat, repeatDays } = this.state
     return (
-      <div className="App">
+      <div className='App'>
         <img className='duckHeader' src={duck} alt='NES duck' />
         <main>
           <div className='card inputFeedCard'>
@@ -101,7 +115,7 @@ export default class App extends Component {
                   <AutoComplete placeholder='Where did you feed them?' locationSelect={this.setLocation} />
 
                   <p>
-                    And when? <input value={date} onChange={this.handleChange} className='landingInput' type='datetime-local' name='date' />
+                    And when? <input value={displayDate} onChange={this.handleDateChange} className='landingInput' type='datetime-local' name='date' />
                   </p>
 
                   {/* Submit buttons and Loader */}
@@ -114,9 +128,9 @@ export default class App extends Component {
 
                       {/* Set repeat */}
                       <div className='col col-8'>
-                        <fieldset className='form-group'>
+                        <fieldset className='checkboxGroup form-group'>
                           <label style={{display: 'inline'}} className='paper-check' htmlFor='repeat'>
-                            <input onChange={this.toggleRepeat} value={repeat} type='checkbox' id='repeat' />
+                            <input checked={repeat} onChange={this.toggleRepeat} value={repeat} type='checkbox' id='repeat' />
                             <span style={{display: 'inline'}}>Repeat</span>
                           </label>
                           {repeat && <span style={{marginLeft: '8px'}}>for next <input className='landingInput' type='number' name='repeatDays' value={repeatDays} onChange={this.handleChange} /> days</span>}

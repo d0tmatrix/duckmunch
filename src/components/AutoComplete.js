@@ -40,16 +40,18 @@ export default class Autocomplete extends Component {
                 className: 'location-search-input form-input landingInput autocompleteInput'
               })}
             />
-            <div className='autocomplete-dropdown-container'>
+            <div className='autocompleteDropdownContainer child-borders'>
               {loading && <div>Loading...</div>}
               {suggestions.map(suggestion => {
                 const className = suggestion.active
                   ? 'suggestion-item--active'
                   : 'suggestion-item';
                 // inline style for demonstration purpose
-                const style = suggestion.active
-                  ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                  : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                const style = {
+                  cursor: 'pointer',
+                  padding: '0.25em',
+                  backgroundColor: suggestion.active ? '#fafafa' : '#ffffff'
+                }
                 return (
                   <div
                     {...getSuggestionItemProps(suggestion, {
