@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import dayjs from 'dayjs';
 
 function Dashboard() {
   const [feeds, updateFeeds] = useState([])
@@ -16,7 +16,7 @@ function Dashboard() {
       })
       if (!serverResponse.ok) {
         setError(true)
-        setErrorMessage(serverResponse.message || 'Internal server error, derp derp.')
+        setErrorMessage(serverResponse.status === 401 ? 'Unauthorized! 🤫' : (serverResponse.message || 'Internal server error, derp derp.'))
         return false
       }
       let feedsData = await serverResponse.json()
@@ -24,22 +24,33 @@ function Dashboard() {
     })()
   }, [])
   return (
-    <div className="dashboard">
-      <header className="dashboard-header">
-        <p>
-          Edit <code>src/Dashboard.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Dashboard
-        </a>
-        {error ? (<p>Hit an error! {message}</p>) : feeds.map(feed => (<li>{feed.date}</li>))}
-      </header>
-    </div>
+    <main className='dashboard'>
+      <h1>Duck Munch Data</h1>
+      {error ? (<p>Errrrrr: {message}</p>) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Ducks</th>
+              <th>Portion</th>
+              <th>Food</th>
+              <th>Location</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {feeds.map(feed => (
+              <tr>
+                <td>{feed.numDucks}</td>
+                <td>{feed.quantity} {feed.measure}</td>
+                <td>{feed.type} ({feed.kind})</td>
+                <td>{feed.location.address}</td>
+                <td>{dayjs(feed.date).format()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </main>
   );
 }
 

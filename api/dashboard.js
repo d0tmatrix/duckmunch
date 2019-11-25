@@ -1,29 +1,13 @@
+const db = require('./utils/db');
+
 module.exports = async (req, res) => {
-  console.log('hit dashboard.js')
-  let data = [{
-    date: 'Monday November 25th 2019',
-    amount: '2 cups',
-    food: 'grain',
-    type: 'oats',
-    location: 'Moscow'
-  }, {
-    date: 'Monday November 25th 2019',
-    amount: '2 cups',
-    food: 'grain',
-    type: 'oats',
-    location: 'Moscow'
-  }, {
-    date: 'Monday November 25th 2019',
-    amount: '2 cups',
-    food: 'grain',
-    type: 'oats',
-    location: 'Moscow'
-  }, {
-    date: 'Monday November 25th 2019',
-    amount: '2 cups',
-    food: 'grain',
-    type: 'oats',
-    location: 'Moscow'
-  }]
-  res.json(data)
+  console.log('hit dashboard.js: ' + req.headers.authorization)
+  let auth = new Buffer.from((req.headers.authorization || '').split(' ')[1] || '', 'base64').toString();
+  if (auth !== process.env.AUTH_CREDS) {
+    res.writeHead(401, { 'WWW-Authenticate': 'Basic realm="Duckmunch Dashboard"' });
+    res.end('HTTP Error 401 Unauthorized: Access is denied');
+    return;
+  }
+  let data = await db.feeds.find()
+  res.json(data);
 }
