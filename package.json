@@ -5,7 +5,6 @@
   "dependencies": {
     "monk": "^7.1.1",
     "react": "^16.12.0",
-    "react-day-picker": "^7.4.0",
     "react-dom": "^16.12.0",
     "react-places-autocomplete": "^7.2.1",
     "react-scripts": "3.2.0"

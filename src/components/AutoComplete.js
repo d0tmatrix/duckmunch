@@ -37,7 +37,7 @@ export default class Autocomplete extends Component {
               required
               {...getInputProps({
                 placeholder: 'Search Places ...',
-                className: 'location-search-input form-input landingInput autocompleteInput',
+                className: 'location-search-input form-input landingInput autocompleteInput'
               })}
             />
             <div className='autocomplete-dropdown-container'>

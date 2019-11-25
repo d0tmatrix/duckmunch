@@ -48,3 +48,12 @@ div.autocompleteParent {
 input.autocompleteInput {
   width: 60%
 }
+
+input.multiDateInput {
+  max-width: 100%;
+}
+
+span.clearDates:hover {
+  cursor: pointer;
+  margin-left: 8px;
+}
