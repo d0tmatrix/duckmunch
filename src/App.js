@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
+import duck from './img/duckOnBlue.png';
+import DayPicker from 'react-day-picker';
+import 'react-day-picker/lib/style.css';
 
 export default class App extends Component {
   constructor(props) {
@@ -41,30 +43,35 @@ export default class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            App
-          </a>
-          <form onSubmit={this.saveFeed}>
-            <input onChange={this.handleChange} type='text' name='food' />
-            <input onChange={this.handleChange} type='text' name='kind' />
-            <input onChange={this.handleChange} type='number' name='quantity' />
-            <select onChange={this.handleChange} name='measure'>
-              <option>Teaspoons</option>
-              <option>Tablespoons</option>
-              <option>1/4 cups</option>
-              <option>1/2 cups</option>
-              <option>full cup</option>
-            </select>
-            <input onChange={this.handleChange} type='time' name='time' />
-            <input onChange={this.handleChange} type='date' name='date' />
-          </form>
-        </header>
+        <img className='duckHeader' src={duck} alt='NES duck' />
+        <main>
+          <div className='card inputFeedCard'>
+            <div className='card-header'>
+              <h3>Thank you for feeding the birds!</h3>
+            </div>
+            <div className='card-body'>
+              <form onSubmit={this.saveFeed}>
+                <div className='form-group'>
+                  On <DayPicker /> I fed
+                  <input className='landingInput' onChange={this.handleChange} type='number' name='quantity' />
+                  ducks
+                  <select className='landingInput' onChange={this.handleChange} name='measure'>
+                    <option>Teaspoons</option>
+                    <option>Tablespoons</option>
+                    <option>1/4 cups</option>
+                    <option>1/2 cups</option>
+                    <option>full cup</option>
+                  </select>
+                  of
+                  <input className='landingInput' onChange={this.handleChange} type='text' name='food' />
+                  <input className='landingInput' onChange={this.handleChange} type='text' name='kind' />
+                  <button>Save</button>
+
+                </div>
+              </form>
+            </div>
+          </div>
+        </main>
       </div>
     );
   }
