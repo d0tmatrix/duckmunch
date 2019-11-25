@@ -1,12 +1,9 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
+html {
+  background-color: #03a9f4;
 }
 
 main {
+  text-align: center;
   min-height: calc(100vh - 240px);
   display: flex;
   flex-direction: column;
@@ -16,15 +13,38 @@ main {
   color: white;
 }
 
-.App-link {
-  color: #09d3ac;
-}
-
 img.duckHeader {
   max-height: 200px;
   margin: auto;
+  border: none;
 }
 
-input.landingInput {
-  display: block;
+div.card .card-header {
+  padding: 0
+}
+
+div.card.inputFeedCard {
+  background-color: whitesmoke;
+  color: black;
+  width: 98vw;
+  max-width: 960px;
+}
+
+input.landingInput[type='number'] {
+  max-width: 60px;
+}
+
+input.landingInput, select.landingInput {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+div.autocompleteParent {
+  width: 100%;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+input.autocompleteInput {
+  width: 60%
 }

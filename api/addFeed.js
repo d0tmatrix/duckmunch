@@ -9,12 +9,12 @@ module.exports = async (req, res) => {
     message: ''
   }
   try {
-    let feed = await db.insert(req.body.feed)
+    let feed = await db.feeds.insert(req.body)
     response.data = [feed]
   } catch (error) {
     console.error(error)
     response = Object.assign(response, { error: true, message: error.message })
   } finally {
     res.json(response)
-  }  
+  }
 }
