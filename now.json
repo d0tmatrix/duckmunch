@@ -1,0 +1,7 @@
+{
+    "version": 2,
+    "env": {
+        "MONGODB_URI": "@duckmunch_mongodb_uri",
+        "AUTH_CREDS": "@duckmunch_auth_creds"
+    }
+}
