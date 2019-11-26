@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import AutoComplete from './components/AutoComplete';
 import duck from './img/duckOnBlue.png';
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 
-export default class App extends Component {
+class App extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       loading: false,
       loadingPercent: 25,
@@ -41,18 +41,17 @@ export default class App extends Component {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-        body: JSON.stringify({ numDucks, type, kind, quantity, location, date, repeatDays  })
+        body: JSON.stringify({ numDucks, type, kind, quantity, location, date, repeatDays })
       })
       let stateUpdate = serverResponse.ok && !serverResponse.error ? { success: true } : {
+        sucess: false,
         error: true,
         message: serverResponse.message || 'Failed to save this feeding, check your self.'
       }
       this.setState(Object.assign({}, stateUpdate, { loading: false }))
     } catch (error) {
       console.error(error)
-
-    } finally {
-
+      this.setState({ error: true, message: error.message || 'An unknown error occured. Please try again.'})
     }
   }
   incrementLoader = async () => {
@@ -61,8 +60,8 @@ export default class App extends Component {
     setTimeout(() => { this.setState({ loadingPercent: 100 }) }, 3000)
   }
   handleChange = ({ target }) => this.setState({ [target.name]: target.type === 'number' ? Number(target.value) : target.value })
-  toggleRepeat = () => this.setState({repeat: !this.state.repeat})
-  setLocation = ({ lat, lng, address }) => this.setState({location: { lat, lng, address }})
+  toggleRepeat = () => this.setState({ repeat: !this.state.repeat })
+  setLocation = ({ lat, lng, address }) => this.setState({ location: { lat, lng, address } })
   handleDateChange = ({ target }) => this.setState({
     displayDate: dayjs(target.value).format('YYYY-MM-DDTHH:mm'),
     date: dayjs(target.value).format()
@@ -115,19 +114,19 @@ export default class App extends Component {
                     <AutoComplete placeholder='Where did you feed them?' locationSelect={this.setLocation} />
                   </div>
 
+                  {/* DateTime select */}
                   <div>
                     <div className='inputLabel'>And when?</div>
                     <input value={displayDate} onChange={this.handleDateChange} className='date landingInput' type='datetime-local' name='date' />
                   </div>
 
-                  {/* Submit buttons and Loader */}
+                  {/* Loader */}
                   {loading ? (
                     <div className='progress margin-bottom'>
                       <div className={`bar striped warning w-${loadingPercent}`}></div>
                     </div>
                   ) : (
                     <div className='row flex-edges'>
-
                       {/* Set repeat */}
                       <div className='col col-8 noBottomPadding'>
                         <fieldset className='checkboxGroup form-group'>
@@ -138,7 +137,6 @@ export default class App extends Component {
                           {repeat && <span style={{marginLeft: '8px'}}>for next <input className='landingInput' type='number' name='repeatDays' value={repeatDays} onChange={this.handleChange} /> days</span>}
                         </fieldset>
                       </div>
-
                       {/* Submit button */}
                       <div className='col col-4 noBottomPadding'>
                         <button style={{backgroundColor: '#bbd4ec'}} className='btn-secondary' type='submit'>Save</button>
@@ -151,6 +149,8 @@ export default class App extends Component {
           </div>
         </main>
       </div>
-    );
+    )
   }
 }
+
+export default App;

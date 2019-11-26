@@ -51,7 +51,7 @@ function Dashboard() {
         </table>
       )}
     </main>
-  );
+  )
 }
 
 export default Dashboard;
