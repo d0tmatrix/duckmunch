@@ -33,7 +33,7 @@ class App extends Component {
       e.preventDefault()
       this.setState({loading: true})
       this.incrementLoader()
-      let { numDucks, type, kind, quantity, location, date } = this.state
+      let { numDucks, measure, type, kind, quantity, location, date } = this.state
       let repeatDays = this.state.repeat ? this.state.repeatDays : 0
       let serverResponse = await fetch('/api/addFeed', {
         method: 'POST',
@@ -41,7 +41,7 @@ class App extends Component {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-        body: JSON.stringify({ numDucks, type, kind, quantity, location, date, repeatDays })
+        body: JSON.stringify({ numDucks, measure, type, kind, quantity, location, date, repeatDays })
       })
       let stateUpdate = serverResponse.ok && !serverResponse.error ? { success: true } : {
         sucess: false,
