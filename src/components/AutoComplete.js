@@ -32,7 +32,7 @@ export default class Autocomplete extends Component {
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div className='autocompleteParent'>
-            Where?
+            <div className='inputLabel'>Where?</div>
             <input
               required
               {...getInputProps({

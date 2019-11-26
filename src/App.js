@@ -79,13 +79,12 @@ export default class App extends Component {
             </div>)}
             <div className='card-body'>
               <form onSubmit={this.saveFeed}>
-                <div className='form-group'>
+                <div className='form-group mainFormGroup'>
 
                   {/* How many ducks? */}
                   <p>
                     I fed <input placeholder='how many ducks?' className='landingInput' onChange={this.handleChange} type='number' name='numDucks' value={numDucks} /> ducks
                   </p>
-
                   {/* Quantity, kind and type of food */}
                   <p>
                     <input type='number' name='quantity' onChange={this.handleChange} className='landingInput quantity' value={quantity} required min={1} />
@@ -98,7 +97,7 @@ export default class App extends Component {
                       <option>full cups</option>
                     </select>
                     of
-                    <select className='landingInput' onChange={this.handleChange} name='type' value={type} required>
+                    <select className='shrink landingInput' onChange={this.handleChange} name='type' value={type} required>
                       <option disabled>Type</option>
                       <option>Grain</option>
                       <option>Nuts</option>
@@ -108,15 +107,18 @@ export default class App extends Component {
                       <option>Greens</option>
                       <option>Other</option>
                     </select>
-                    <input placeholder='What type?' className='landingInput' onChange={this.handleChange} type='text' name='kind' value={kind} required />
+                    <input placeholder='What type?' className='shrink landingInput' onChange={this.handleChange} type='text' name='kind' value={kind} required />
                   </p>
 
                   {/* Autocomplete Input for locations */}
-                  <AutoComplete placeholder='Where did you feed them?' locationSelect={this.setLocation} />
+                  <div>
+                    <AutoComplete placeholder='Where did you feed them?' locationSelect={this.setLocation} />
+                  </div>
 
-                  <p>
-                    And when? <input value={displayDate} onChange={this.handleDateChange} className='landingInput' type='datetime-local' name='date' />
-                  </p>
+                  <div>
+                    <div className='inputLabel'>And when?</div>
+                    <input value={displayDate} onChange={this.handleDateChange} className='date landingInput' type='datetime-local' name='date' />
+                  </div>
 
                   {/* Submit buttons and Loader */}
                   {loading ? (
@@ -127,7 +129,7 @@ export default class App extends Component {
                     <div className='row flex-edges'>
 
                       {/* Set repeat */}
-                      <div className='col col-8'>
+                      <div className='col col-8 noBottomPadding'>
                         <fieldset className='checkboxGroup form-group'>
                           <label style={{display: 'inline'}} className='paper-check' htmlFor='repeat'>
                             <input checked={repeat} onChange={this.toggleRepeat} value={repeat} type='checkbox' id='repeat' />
@@ -138,7 +140,7 @@ export default class App extends Component {
                       </div>
 
                       {/* Submit button */}
-                      <div className='col col-4'>
+                      <div className='col col-4 noBottomPadding'>
                         <button style={{backgroundColor: '#bbd4ec'}} className='btn-secondary' type='submit'>Save</button>
                       </div>
                     </div>
