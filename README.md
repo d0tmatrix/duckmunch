@@ -14,15 +14,16 @@ Environment variables are confirgured in a `.env` file locally and via `now.json
 
 Follows usual syntax: `variableName=somesecret` and lives at project root.
 These variables are available as `process.env.variableName` in api folder files after running `yarn startDev`.
-For the front end to pick up vars in this file, they must start with `REACT_APP_` and be referenced as such in front end code. See [create react app docs](https://create-react-app.dev/docs/adding-custom-environment-variables/)
+For the front end to pick up vars in this file, they must start with `REACT_APP_` and be referenced as such in front end code. See the [create react app docs](https://create-react-app.dev/docs/adding-custom-environment-variables/)
 
 ###### now.json
-Configuration for deployments at https://zeit.co, best when paired with the now cli.
+Configuration for deployments at https://zeit.co, best when paired with the [now cli](https://zeit.co/docs)
 Add secrets to your now account with `now secrets add <somesecret>`
 If you've been given access to a team use `now switch <teamname>` to make use of the relevant secrets.
 
 ##### Workflows
 - after cloning the repo, install dependencies by running `yarn` from this directory
+- to work with the dev server and develop locally, you will also need the now cli tool. [Installation instructions](https://zeit.co/docs)
 - Start local development: `yarn startDev` runs the app at http://localhost:3333
 (you can change the port by updating the dev command and the proxy field, both in package.json)
 - Deployment via zeit.co's cli tool: run `now` from the project root
@@ -31,13 +32,13 @@ If you've been given access to a team use `now switch <teamname>` to make use of
 ### Approach
 ---
 
-At the core, this project is a web form posting an array of objects to a back end for saving in a mongo database so it can be represented back to a scientist to consult for their Phd thesis. I decided on two routes only, one to render the form that collects the data needed to create the "feed" objects and another to request that data and represent it in a table if correct credentials are provided. I used basic HTTP auth for the dashboard route so that the data wasn't available to anyone who happened on the url, but given that this is crowdsourced information, security at this level was not a large concern. HTTP Basic auth is considered secure enough when transmitted over https, it's just unconventional at this point to login via a browser prompt. JWT or browser Cookies would be used in place of Basic auth if this application had more than one user who required authentication.
+At the core, this project is a web form posting an array of objects to a back end for saving in a mongo database so it can be represented back to a scientist to consult for their Phd thesis. I decided on two routes only, one to render the form that collects the data needed to create the "feed" objects by posting to the back end and another to request that data and represent it in a table if correct credentials are provided. I used basic HTTP auth for the dashboard route so that the data wasn't available to anyone who happened on the url, but given that this is crowdsourced information, security at this level was not a large concern. HTTP Basic auth is considered secure enough when transmitted over https, though it's unconventional to login via a browser prompt. JWT or browser Cookies would be used in place of Basic auth if this application had more than one user who required authentication.
 
 My intention was to create a form that was as simple and conversational as possible. I considered going the question by question route (like Typeform) but opted for something simpler that still represented the data being submitted in a conversational tone, reinforced by the low key nature of Paper.css. The data being submitted is essentially one sentence: how many ducks did you feed what, when and where? I strove to create a form that poses this question and makes it easy to answer (ie minimal navigation or reasoning required on the user's behalf).
 
 Given there are only two routes, I bypassed installing `react-router-dom` and instead used a ternary operator to route based on `window.location`.
 
-In chosing the stack, priority was given to familiarity. With only 10 hours, I couldn't spend time learning anything. As it is, I did reach for a library I'd never used (DayJs), however it's API is so like moment.js, that I know well, that this was not an issue.
+In choosing the stack, priority was given to familiarity. With only 10 hours, I couldn't spend time learning anything. As it is, I did reach for a library I'd never used (DayJs), however it's API is so like moment.js, that I know well, that this was not an issue.
 
 ### Stack
 ---
