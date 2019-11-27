@@ -135,7 +135,7 @@ class App extends Component {
                       <div className='col col-8 noBottomPadding'>
                         <fieldset className='checkboxGroup form-group'>
                           <label style={{display: 'inline'}} className='paper-check' htmlFor='repeat'>
-                            <input checked={repeat} onChange={this.toggleRepeat} value={repeat} type='checkbox' />
+                            <input checked={repeat} onChange={this.toggleRepeat} value={repeat} type='checkbox' id='repeat' />
                             <span style={{display: 'inline'}}>Repeat</span>
                           </label>
                           {repeat && <span style={{marginLeft: '8px'}}>for next <input className='landingInput' type='number' name='repeatDays' value={repeatDays} onChange={this.handleChange} /> days</span>}
