@@ -125,7 +125,7 @@ class App extends Component {
 
                   {/* Loader */}
                   {loading ? (
-                    <div className='progress margin-bottom'>
+                    <div className='margin-top progress margin-bottom'>
                       <div className={`bar striped warning w-${loadingPercent}`}></div>
                     </div>
                   ) : (
