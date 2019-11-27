@@ -26,7 +26,7 @@ function Dashboard() {
   return (
     <main className='dashboard'>
       <h1>Duck Munch Data</h1>
-      {error ? (<p>Errrrrr: {message}</p>) : (
+      {error ? (<p className='errorMessage'>Errrrrr: {message}</p>) : (
         <table>
           <thead>
             <tr>

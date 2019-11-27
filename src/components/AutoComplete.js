@@ -6,14 +6,10 @@ import PlacesAutocomplete, {
 
 export default class Autocomplete extends Component {
   constructor(props) {
-    super(props);
-    this.state = { address: '' };
+    super(props)
+    this.state = { address: '' }
   }
-
-  handleChange = address => {
-    this.setState({ address });
-  };
-
+  handleChange = address => this.setState({ address })
   handleSelect = address => {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
@@ -21,23 +17,24 @@ export default class Autocomplete extends Component {
         this.setState({ address })
         this.props.locationSelect({lat, lng, address})
       })
-      .catch(error => console.error('Error', error));
-  };
+      .catch(error => console.error('Error', error))
+  }
   render() {
     return (
       <PlacesAutocomplete
         value={this.state.address}
         onChange={this.handleChange}
         onSelect={this.handleSelect}
+        googleCallbackName='mapsApiLoaded'
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div className='autocompleteParent'>
             <div className='inputLabel'>Where?</div>
             <input
-              required
               {...getInputProps({
                 placeholder: 'Search Places ...',
-                className: 'location-search-input form-input landingInput autocompleteInput'
+                className: 'location-search-input form-input landingInput autocompleteInput',
+                name: 'location'
               })}
             />
             <div className='autocompleteDropdownContainer child-borders'>
@@ -45,8 +42,7 @@ export default class Autocomplete extends Component {
               {suggestions.map(suggestion => {
                 const className = suggestion.active
                   ? 'suggestion-item--active'
-                  : 'suggestion-item';
-                // inline style for demonstration purpose
+                  : 'suggestion-item'
                 const style = {
                   cursor: 'pointer',
                   padding: '0.25em',
@@ -61,7 +57,7 @@ export default class Autocomplete extends Component {
                   >
                     <span style={{color:'black'}}>{suggestion.description}</span>
                   </div>
-                );
+                )
               })}
             </div>
           </div>

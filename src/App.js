@@ -31,7 +31,7 @@ class App extends Component {
   saveFeed = async (e) => {
     try {
       e.preventDefault()
-      this.setState({loading: true})
+      this.setState({ loading: true })
       this.incrementLoader()
       let { numDucks, measure, type, kind, quantity, location, date } = this.state
       let repeatDays = this.state.repeat ? this.state.repeatDays : 0
@@ -39,14 +39,14 @@ class App extends Component {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
+          'Accept': 'application/json'
         },
         body: JSON.stringify({ numDucks, measure, type, kind, quantity, location, date, repeatDays })
       })
       let stateUpdate = serverResponse.ok && !serverResponse.error ? { success: true } : {
         sucess: false,
         error: true,
-        message: serverResponse.message || 'Failed to save this feeding, check your self.'
+        message: serverResponse.message || 'Failed to save this feeding, darn. Try again?'
       }
       this.setState(Object.assign({}, stateUpdate, { loading: false }))
     } catch (error) {
@@ -60,12 +60,12 @@ class App extends Component {
     setTimeout(() => { this.setState({ loadingPercent: 100 }) }, 3000)
   }
   handleChange = ({ target }) => this.setState({ [target.name]: target.type === 'number' ? Number(target.value) : target.value })
-  toggleRepeat = () => this.setState({ repeat: !this.state.repeat })
   setLocation = ({ lat, lng, address }) => this.setState({ location: { lat, lng, address } })
   handleDateChange = ({ target }) => this.setState({
     displayDate: dayjs(target.value).format('YYYY-MM-DDTHH:mm'),
     date: dayjs(target.value).format()
   })
+  toggleRepeat = () => this.setState({ repeat: !this.state.repeat })
   render() {
     let { loading, loadingPercent, numDucks, quantity, measure, type, kind, displayDate, repeat, repeatDays } = this.state
     return (
@@ -73,9 +73,11 @@ class App extends Component {
         <img className='duckHeader' src={duck} alt='NES duck' />
         <main>
           <div className='card inputFeedCard'>
-            {this.state.success && (<div className='card-header'>
-              <h3>Thank you for feeding the birds!</h3>
-            </div>)}
+            {this.state.success && (
+              <div className='card-header'>
+                <h3>Thank you for feeding the birds!</h3>
+              </div>
+            )}
             <div className='card-body'>
               <form onSubmit={this.saveFeed}>
                 <div className='form-group mainFormGroup'>
@@ -84,6 +86,7 @@ class App extends Component {
                   <p>
                     I fed <input placeholder='how many ducks?' className='landingInput' onChange={this.handleChange} type='number' name='numDucks' value={numDucks} /> ducks
                   </p>
+
                   {/* Quantity, kind and type of food */}
                   <p>
                     <input type='number' name='quantity' onChange={this.handleChange} className='landingInput quantity' value={quantity} required min={1} />
@@ -127,20 +130,23 @@ class App extends Component {
                     </div>
                   ) : (
                     <div className='row flex-edges'>
-                      {/* Set repeat */}
+
+                      {/* Set Repeat */}
                       <div className='col col-8 noBottomPadding'>
                         <fieldset className='checkboxGroup form-group'>
                           <label style={{display: 'inline'}} className='paper-check' htmlFor='repeat'>
-                            <input checked={repeat} onChange={this.toggleRepeat} value={repeat} type='checkbox' id='repeat' />
+                            <input checked={repeat} onChange={this.toggleRepeat} value={repeat} type='checkbox' />
                             <span style={{display: 'inline'}}>Repeat</span>
                           </label>
                           {repeat && <span style={{marginLeft: '8px'}}>for next <input className='landingInput' type='number' name='repeatDays' value={repeatDays} onChange={this.handleChange} /> days</span>}
                         </fieldset>
                       </div>
+
                       {/* Submit button */}
                       <div className='col col-4 noBottomPadding'>
                         <button style={{backgroundColor: '#bbd4ec'}} className='btn-secondary' type='submit'>Save</button>
                       </div>
+
                     </div>
                   )}
                 </div>
